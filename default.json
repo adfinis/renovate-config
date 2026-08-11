@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices",
+    "mergeConfidence:all-badges",
+    ":semanticCommits",
+    ":enablePreCommit",
+    "mergeConfidence:all-badges",
+    "schedule:nonOfficeHours"
+  ],
+  "branchPrefix": "renovate-",
+  "reviewersFromCodeOwners": true,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "semanticCommitType": "fix",
+    "schedule": "before 7am every weekday",
+    "dependencyDashboardApproval": false,
+    "commitMessageSuffix": ""
+  },
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboardOSVVulnerabilitySummary": "all",
+  "timezone": "Europe/Zurich"
+}
