@@ -51,6 +51,8 @@ them enable automerge; every PR still needs a human to merge it.
 | [`rebase-conflicted`](rebase-conflicted.json) | Only rebase PRs when they actually conflict, and never re-create PRs that were closed by a human. |
 | [`dashboard-approval-majors`](dashboard-approval-majors.json) | Major updates are only listed on the Dependency Dashboard and become PRs once approved there. |
 | [`lockfile-maintenance`](lockfile-maintenance.json) | Refresh lock files monthly in a single PR that must first be approved on the Dependency Dashboard. |
+| [`app`](app.json) | For deployable applications: pin all dependency versions except peerDependencies. |
+| [`library`](library.json) | For published libraries: pin devDependencies only. |
 | [`quiet`](quiet.json) | Low-noise bundle: ecosystem groups, one non-major PR per manager, one digest PR, weekly schedule, rebase only on conflict, relaxed limits. |
 
 ### Recommended config
@@ -59,6 +61,9 @@ them enable automerge; every PR still needs a human to merge it.
 {
   "extends": [
     "github>adfinis/renovate-config",
+    "github>adfinis/renovate-config:app",
+    // or
+    // "github>adfinis/renovate-config:library",
     "github>adfinis/renovate-config:quiet"
   ]
 }
@@ -85,6 +90,23 @@ the package manager and therefore upgrades transitive dependencies regardless of
 `minimumReleaseAge`. It is not part of `quiet`. The [`lockfile-maintenance`](lockfile-maintenance.json)
 preset offers it anyway, but only monthly and only after a human approves the
 PR on the Dependency Dashboard.
+
+### Range strategy
+
+The default preset pins `devDependencies` (via `config:best-practices`) and
+leaves everything else on `rangeStrategy: auto`, which for npm means in-range
+updates are applied to the lock file without changing `package.json`. This is
+safe for both applications and libraries, so it stays the default. Use
+[`app`](app.json) or [`library`](library.json) to declare which kind of project
+a repository is:
+
+* `app` pins every dependency to an exact version (except `peerDependencies`).
+* `library` keeps SemVer ranges for runtime dependencies so consumers can
+  deduplicate, and widens `peerDependencies`.
+
+`rangeStrategy` only matters for managers that support ranges (npm, pnpm, yarn,
+Poetry, Composer, Bundler, ...). It has no effect on Go modules, GitHub Actions,
+Docker tags or Helm charts, which are always exact versions.
 
 ## Helpful links
 
