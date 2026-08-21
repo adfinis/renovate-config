@@ -50,6 +50,7 @@ them enable automerge; every PR still needs a human to merge it.
 | [`limits-relaxed`](limits-relaxed.json) | Moderate limits on how many Renovate PRs and branches may exist at once, and how many PRs are opened per hour. |
 | [`rebase-conflicted`](rebase-conflicted.json) | Only rebase PRs when they actually conflict, and never re-create PRs that were closed by a human. |
 | [`dashboard-approval-majors`](dashboard-approval-majors.json) | Major updates are only listed on the Dependency Dashboard and become PRs once approved there. |
+| [`lockfile-maintenance`](lockfile-maintenance.json) | Refresh lock files monthly in a single PR that must first be approved on the Dependency Dashboard. |
 | [`quiet`](quiet.json) | Low-noise bundle: ecosystem groups, one non-major PR per manager, one digest PR, weekly schedule, rebase only on conflict, relaxed limits. |
 
 ### Recommended config
@@ -79,8 +80,11 @@ None of these presets set `minimumReleaseAge`, `internalChecksFilter` or
 versions that are younger than `minimumReleaseAge` *before* grouping, so a
 grouped PR only ever contains releases that have passed the waiting period.
 
-`lockFileMaintenance` is intentionally not offered, because it upgrades
-transitive dependencies to the latest version regardless of `minimumReleaseAge`.
+Lock file maintenance is the exception: it refreshes the whole lock file with
+the package manager and therefore upgrades transitive dependencies regardless of
+`minimumReleaseAge`. It is not part of `quiet`. The [`lockfile-maintenance`](lockfile-maintenance.json)
+preset offers it anyway, but only monthly and only after a human approves the
+PR on the Dependency Dashboard.
 
 ## Helpful links
 

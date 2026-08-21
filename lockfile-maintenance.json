@@ -1,0 +1,9 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Refresh lock files monthly in a single PR that must first be approved on the Dependency Dashboard.",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on the first day of the month"],
+    "dependencyDashboardApproval": true
+  }
+}
