@@ -6,6 +6,6 @@
     "group:recommended",
     "group:linters",
     "group:test",
-    "group:kubernetes"
+    "group:kubernetesMonorepo"
   ]
 }
