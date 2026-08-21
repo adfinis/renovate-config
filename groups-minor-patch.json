@@ -1,0 +1,55 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Group all minor and patch updates into one PR per ecosystem.",
+  "packageRules": [
+    {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "npm non-major",
+      "groupSlug": "npm-non-major"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "github actions non-major",
+      "groupSlug": "github-actions-non-major"
+    },
+    {
+      "matchManagers": [
+        "dockerfile",
+        "docker-compose",
+        "helm-values",
+        "helmv3",
+        "kubernetes",
+        "kustomize"
+      ],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "container non-major",
+      "groupSlug": "container-non-major"
+    },
+    {
+      "matchManagers": ["gomod"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "go non-major",
+      "groupSlug": "go-non-major"
+    },
+    {
+      "matchManagers": ["pep621", "pip_requirements", "poetry", "pipenv", "uv"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "python non-major",
+      "groupSlug": "python-non-major"
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "pre-commit non-major",
+      "groupSlug": "pre-commit-non-major"
+    },
+    {
+      "matchManagers": ["terraform", "terragrunt", "tflint-plugin"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "terraform non-major",
+      "groupSlug": "terraform-non-major"
+    }
+  ]
+}

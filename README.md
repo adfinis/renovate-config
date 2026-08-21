@@ -34,6 +34,80 @@ renovate-config-validator example.json
 
 All presets in this repository are validated automatically by a GitHub Actions workflow.
 
+## Presets
+
+All presets besides `default` are opt-in and designed to be combined. None of
+them enable automerge; every PR still needs a human to merge it.
+
+| Preset | Description |
+|---|---|
+| [`groups-minor-patch`](groups-minor-patch.json) | Group all minor and patch updates into one PR per ecosystem. |
+| [`groups-digests`](groups-digests.json) | Group all digest, pin and pinDigest updates into a single PR. |
+| [`groups-ecosystems`](groups-ecosystems.json) | Apply Renovate's upstream-maintained dependency family groups. |
+| [`schedule-weekly`](schedule-weekly.json) | Create and update PRs only early Monday morning. Open PRs are not rebased or updated outside that window. |
+| [`schedule-monthly`](schedule-monthly.json) | Create and update PRs only early on the first day of the month. Open PRs are not rebased or updated outside that window. |
+| [`limits-strict`](limits-strict.json) | Tight limits on how many Renovate PRs and branches may exist at once, and how many PRs are opened per hour. |
+| [`limits-relaxed`](limits-relaxed.json) | Moderate limits on how many Renovate PRs and branches may exist at once, and how many PRs are opened per hour. |
+| [`rebase-conflicted`](rebase-conflicted.json) | Only rebase PRs when they actually conflict, and never re-create PRs that were closed by a human. |
+| [`dashboard-approval-majors`](dashboard-approval-majors.json) | Major updates are only listed on the Dependency Dashboard and become PRs once approved there. |
+| [`lockfile-maintenance`](lockfile-maintenance.json) | Refresh lock files monthly in a single PR that must first be approved on the Dependency Dashboard. |
+| [`app`](app.json) | For deployable applications: pin all dependency versions except peerDependencies. |
+| [`library`](library.json) | For published libraries: pin devDependencies only. |
+| [`quiet`](quiet.json) | Low-noise bundle: ecosystem groups, one non-major PR per manager, one digest PR, weekly schedule, rebase only on conflict, relaxed limits. |
+
+### Recommended config
+
+```json
+{
+  "extends": [
+    "github>adfinis/renovate-config",
+    "github>adfinis/renovate-config:app",
+    // or
+    // "github>adfinis/renovate-config:library",
+    "github>adfinis/renovate-config:quiet"
+  ]
+}
+```
+
+
+Notes:
+
+* Put the presets **after** `github>adfinis/renovate-config` so they override its `schedule:nonOfficeHours`.
+* The schedule presets use the `timezone` from the default preset (`Europe/Zurich`). Set `timezone` yourself if you don't extend the default.
+* `dashboard-approval-majors` requires the Dependency Dashboard, which `config:recommended` (and therefore the default preset) enables.
+* Security updates (`vulnerabilityAlerts`) are not affected by the grouping and schedule presets: Renovate always creates them individually and immediately.
+
+### Stability days
+
+None of these presets set `minimumReleaseAge`, `internalChecksFilter` or
+`prCreation`, so they compose with the stability-days behaviour from
+`config:best-practices` (or your own `minimumReleaseAge`). Renovate filters
+versions that are younger than `minimumReleaseAge` *before* grouping, so a
+grouped PR only ever contains releases that have passed the waiting period.
+
+Lock file maintenance is the exception: it refreshes the whole lock file with
+the package manager and therefore upgrades transitive dependencies regardless of
+`minimumReleaseAge`. It is not part of `quiet`. The [`lockfile-maintenance`](lockfile-maintenance.json)
+preset offers it anyway, but only monthly and only after a human approves the
+PR on the Dependency Dashboard.
+
+### Range strategy
+
+The default preset pins `devDependencies` (via `config:best-practices`) and
+leaves everything else on `rangeStrategy: auto`, which for npm means in-range
+updates are applied to the lock file without changing `package.json`. This is
+safe for both applications and libraries, so it stays the default. Use
+[`app`](app.json) or [`library`](library.json) to declare which kind of project
+a repository is:
+
+* `app` pins every dependency to an exact version (except `peerDependencies`).
+* `library` keeps SemVer ranges for runtime dependencies so consumers can
+  deduplicate, and widens `peerDependencies`.
+
+`rangeStrategy` only matters for managers that support ranges (npm, pnpm, yarn,
+Poetry, Composer, Bundler, ...). It has no effect on Go modules, GitHub Actions,
+Docker tags or Helm charts, which are always exact versions.
+
 ## Helpful links
 
 * [Default presets](https://docs.renovatebot.com/presets-default/)

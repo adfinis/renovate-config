@@ -1,0 +1,11 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Group all digest, pin and pinDigest updates into a single PR.",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["digest", "pin", "pinDigest"],
+      "groupName": "digests and pins",
+      "groupSlug": "digests"
+    }
+  ]
+}

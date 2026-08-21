@@ -1,0 +1,6 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Create and update PRs only early Monday morning. Open PRs are not rebased or updated outside that window.",
+  "schedule": ["before 6am on monday"],
+  "updateNotScheduled": false
+}

@@ -1,0 +1,7 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Tight limits on how many Renovate PRs and branches may exist at once, and how many PRs are opened per hour.",
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 1,
+  "branchConcurrentLimit": 5
+}
