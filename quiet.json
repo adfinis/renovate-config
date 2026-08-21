@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Low-noise bundle: ecosystem groups, one non-major PR per manager, one digest PR, weekly schedule, rebase only on conflict, relaxed limits.",
+  "extends": [
+    "github>adfinis/renovate-config:groups-ecosystems",
+    "github>adfinis/renovate-config:groups-minor-patch",
+    "github>adfinis/renovate-config:groups-digests",
+    "github>adfinis/renovate-config:schedule-weekly",
+    "github>adfinis/renovate-config:rebase-conflicted",
+    "github>adfinis/renovate-config:limits-relaxed"
+  ]
+}

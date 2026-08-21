@@ -1,0 +1,11 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Apply Renovate's upstream-maintained dependency family groups.",
+  "extends": [
+    "group:monorepos",
+    "group:recommended",
+    "group:linters",
+    "group:test",
+    "group:kubernetes"
+  ]
+}

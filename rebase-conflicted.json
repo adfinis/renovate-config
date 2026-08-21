@@ -1,0 +1,6 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Only rebase PRs when they actually conflict, and never re-create PRs that were closed by a human.",
+  "rebaseWhen": "conflicted",
+  "recreateWhen": "never"
+}
