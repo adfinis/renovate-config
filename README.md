@@ -79,34 +79,15 @@ Notes:
 
 ### Stability days
 
-None of these presets set `minimumReleaseAge`, `internalChecksFilter` or
-`prCreation`, so they compose with the stability-days behaviour from
-`config:best-practices` (or your own `minimumReleaseAge`). Renovate filters
-versions that are younger than `minimumReleaseAge` *before* grouping, so a
-grouped PR only ever contains releases that have passed the waiting period.
-
-Lock file maintenance is the exception: it refreshes the whole lock file with
-the package manager and therefore upgrades transitive dependencies regardless of
-`minimumReleaseAge`. It is not part of `quiet`. The [`lockfile-maintenance`](lockfile-maintenance.json)
-preset offers it anyway, but only monthly and only after a human approves the
-PR on the Dependency Dashboard.
+The presets respect `minimumReleaseAge`. The only exception is
+[`lockfile-maintenance`](lockfile-maintenance.json), which is why it requires
+Dependency Dashboard approval.
 
 ### Range strategy
 
-The default preset pins `devDependencies` (via `config:best-practices`) and
-leaves everything else on `rangeStrategy: auto`, which for npm means in-range
-updates are applied to the lock file without changing `package.json`. This is
-safe for both applications and libraries, so it stays the default. Use
-[`app`](app.json) or [`library`](library.json) to declare which kind of project
-a repository is:
-
-* `app` pins every dependency to an exact version (except `peerDependencies`).
-* `library` keeps SemVer ranges for runtime dependencies so consumers can
-  deduplicate, and widens `peerDependencies`.
-
-`rangeStrategy` only matters for managers that support ranges (npm, pnpm, yarn,
-Poetry, Composer, Bundler, ...). It has no effect on Go modules, GitHub Actions,
-Docker tags or Helm charts, which are always exact versions.
+Use [`app`](app.json) to pin all dependencies, or [`library`](library.json) to
+keep SemVer ranges for runtime dependencies. Without either, only
+`devDependencies` are pinned.
 
 ## Helpful links
 
