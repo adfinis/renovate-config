@@ -19,5 +19,15 @@
   },
   "osvVulnerabilityAlerts": true,
   "dependencyDashboardOSVVulnerabilitySummary": "all",
-  "timezone": "Europe/Zurich"
+  "timezone": "Europe/Zurich",
+  "minimumReleaseAge": "7 days",
+  "packageRules": [
+    {
+      "description": "Adfinis-owned dependencies need no cooldown",
+      "matchPackageNames": [
+        "/adfinis/"
+      ],
+      "minimumReleaseAge": null
+    }
+  ]
 }

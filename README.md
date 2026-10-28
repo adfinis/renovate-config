@@ -79,7 +79,9 @@ Notes:
 
 ### Stability days
 
-The presets respect `minimumReleaseAge`. The only exception is
+The default preset sets `minimumReleaseAge` to 7 days for all updates, except
+dependencies owned by Adfinis (package name contains `adfinis`), which have no
+cooldown. The presets respect `minimumReleaseAge`. The only exception is
 [`lockfile-maintenance`](lockfile-maintenance.json), which is why it requires
 Dependency Dashboard approval.
 
